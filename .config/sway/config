@@ -1,0 +1,153 @@
+include ~/.config/sway/catppuccin-latte.conf
+
+### Variables
+set $mod Mod4
+set $term foot
+set $uifont "Ubuntu 14"
+set $menu fuzzel
+exec kdeconnect-indicator
+exec mako
+exec swayrd
+exec autotiling
+exec fcitx5 --replace -d
+exec waybar
+exec dbus-update-activation-environment --systemd WAYLAND_DISPLAY XDG_CURRENT_DESKTOP=sway GTK_IM_MODULE=fcitx QT_IM_MODULE=fcitx XMODIFIERS=@im=fcitx
+exec_always env -u HOMEBREW_PREFIX -u HOMEBREW_CELLAR -u HOMEBREW_REPOSITORY waypaper --restore
+
+mouse_warping container
+focus_follows_mouse no
+
+input "1241:64560:USB_Gaming_Mouse" {
+    accel_profile flat
+    pointer_accel 0
+}
+
+### Output configuration
+output * bg /home/unlucky_m0rpheus/Images/wha-1920x1080.jpeg fill
+output HDMI-A-1 resolution 1920x1080@144Hz position 0,0
+default_orientation auto
+### Input configuration
+input type:keyboard {
+    xkb_layout us
+    xkb_variant intl
+}
+
+### Key bindings
+    bindsym $mod+Return exec $term
+    bindsym $mod+Shift+q kill
+    bindsym Mod1+F4 kill
+    bindsym $mod+d exec $menu
+    floating_modifier $mod normal
+    bindsym $mod+Shift+c reload
+    bindsym $mod+Shift+e exec swaynag -t warning -m 'You pressed the exit shortcut. Do you really want to exit sway? This will end your Wayland session.' -b 'Yes, exit sway' 'swaymsg exit'
+    bindsym Control+Mod1+Backspace exec swaymsg exit
+
+    for_window [window_role="pop-up"] floating enable
+    for_window [window_role="bubble"] floating enable
+    for_window [window_role="task_dialog"] floating enable
+    for_window [window_role="Preferences"] floating enable
+    for_window [window_type="dialog"] floating enable
+    for_window [window_type="menu"] floating enable
+    for_window [window_role="About"] floating enable
+    for_window [class="xdg-desktop-portal-kde"] floating enable
+    for_window [class="ksysguard"] floating enable
+    for_window [class="ksysguard"] sticky enable
+    for_window [class="Wine"] floating enable
+    for_window [app_id="lutris"] floating enable
+
+    bindsym $mod+F12 exec shutdown now
+    bindsym Control+Mod1+Delete exec ksysguard
+    bindsym $mod+F1 exec dolphin
+    bindsym $mod+F2 exec cantata
+    bindsym $mod+F3 exec mpv --player-operation-mode=pseudo-gui
+    bindsym $mod+F4 exec firefox
+    bindsym $mod+F5 exec kate
+    bindsym $mod+F6 exec lutris
+    bindsym $mod+F7 exec notify-send $(weather)
+    bindsym $mod+F8 exec pkill kmousetool || kmousetool
+    bindsym $mod+shift+F4 exec firefox --private-window
+    bindsym Print exec XDG_CURRENT_DESKTOP=sway QT_QPA_PLATFORM=wayland flameshot screen -p "$(xdg-user-dir PICTURES)/Screenshot_$(date +'%Y-%m-%d-%H%M%S.png')"
+    bindsym Alt+Print exec XDG_CURRENT_DESKTOP=sway QT_QPA_PLATFORM=wayland flameshot full -p "$(xdg-user-dir PICTURES)/Screenshot_$(date +'%Y-%m-%d-%H%M%S.png')"
+    bindsym Control+Print exec XDG_CURRENT_DESKTOP=sway QT_QPA_PLATFORM=wayland flameshot gui -p "$(xdg-user-dir PICTURES)"
+    bindsym Shift+Print exec XDG_CURRENT_DESKTOP=sway QT_QPA_PLATFORM=wayland flameshot gui -c
+    bindsym $mod+tab workspace back_and_forth
+    bindsym Mod1+Tab exec swayr next-window current-workspace
+    bindsym Mod1+Shift+Tab exec swayr prev-window current-workspace
+
+### Multimedia keys
+    bindsym XF86AudioRaiseVolume exec --no-startup-id pactl set-sink-volume 0 +5%
+    bindsym XF86AudioLowerVolume exec --no-startup-id pactl set-sink-volume 0 -5%
+    bindsym XF86AudioMute exec --no-startup-id pactl set-sink-mute 0 toggle
+    bindsym XF86AudioPlay exec playerctl play-pause
+    bindsym XF86AudioNext exec playerctl next
+    bindsym XF86AudioPrev exec playerctl previous
+
+### Moving around
+    bindsym $mod+Left focus left
+    bindsym $mod+Down focus down
+    bindsym $mod+Up focus up
+    bindsym $mod+Right focus right
+    bindsym $mod+Shift+Left move left
+    bindsym $mod+Shift+Down move down
+    bindsym $mod+Shift+Up move up
+    bindsym $mod+Shift+Right move right
+
+### Workspaces
+    bindsym $mod+1 workspace 1
+    bindsym $mod+2 workspace 2
+    bindsym $mod+3 workspace 3
+    bindsym $mod+4 workspace 4
+    bindsym $mod+5 workspace 5
+    bindsym $mod+6 workspace 6
+    bindsym $mod+7 workspace 7
+    bindsym $mod+8 workspace 8
+    bindsym $mod+9 workspace 9
+    bindsym $mod+0 workspace 10
+    bindsym $mod+Shift+1 move container to workspace 1
+    bindsym $mod+Shift+2 move container to workspace 2
+    bindsym $mod+Shift+3 move container to workspace 3
+    bindsym $mod+Shift+4 move container to workspace 4
+    bindsym $mod+Shift+5 move container to workspace 5
+    bindsym $mod+Shift+6 move container to workspace 6
+    bindsym $mod+Shift+7 move container to workspace 7
+    bindsym $mod+Shift+8 move container to workspace 8
+    bindsym $mod+Shift+9 move container to workspace 9
+    bindsym $mod+Shift+0 move container to workspace 10
+
+### Layout
+    bindsym $mod+b splith
+    bindsym $mod+v splitv
+    bindsym $mod+s layout stacking
+    bindsym $mod+w layout tabbed
+    bindsym $mod+e layout toggle split
+    bindsym F11 fullscreen
+    bindsym $mod+f fullscreen
+    bindsym $mod+space floating toggle
+    bindsym $mod+Shift+space focus mode_toggle
+    bindsym $mod+a focus parent
+
+### Scratchpad
+    bindsym $mod+Shift+minus move scratchpad
+    bindsym $mod+minus scratchpad show
+
+### Resize mode
+mode "resize" {
+    bindsym Left resize shrink width 10px
+    bindsym Down resize grow height 10px
+    bindsym Up resize shrink height 10px
+    bindsym Right resize grow width 10px
+    bindsym Return mode "default"
+    bindsym Escape mode "default"
+}
+bindsym $mod+r mode "resize"
+
+### Status Bar — gerenciado pelo waybar (exec waybar nas linhas de autostart)
+
+### Titlebars
+gaps inner 10
+gaps outer 8
+default_border pixel
+default_floating_border pixel
+hide_edge_borders smart
+
+include /etc/sway/config.d/*

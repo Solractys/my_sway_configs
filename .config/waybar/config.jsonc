@@ -1,0 +1,52 @@
+{
+    "layer": "top",
+    "position": "top",
+    "height": 32,
+    "spacing": 4,
+
+    "modules-left": ["sway/workspaces", "sway/mode"],
+    "modules-center": ["clock"],
+    "modules-right": ["tray", "pulseaudio", "battery", "clock#date"],
+
+    "sway/workspaces": {
+        "disable-scroll": true,
+        "all-outputs": false
+    },
+
+    "sway/mode": {
+        "format": " {}"
+    },
+
+    "clock": {
+        "format": "{:%H:%M:%S}",
+        "interval": 1,
+        "tooltip": false
+    },
+
+    "clock#date": {
+        "format": "{:%-d.%-m.%Y}",
+        "tooltip": false
+    },
+
+    "pulseaudio": {
+        "format": " {volume}%",
+        "format-muted": " mudo",
+        "on-click": "pactl set-sink-mute 0 toggle",
+        "scroll-step": 5
+    },
+
+    "battery": {
+        "format": " {capacity}%",
+        "format-charging": " {capacity}%",
+        "format-discharging": " {capacity}%",
+        "states": {
+            "warning": 30,
+            "critical": 15
+        }
+    },
+
+    "tray": {
+        "spacing": 8,
+        "show-passive-items": true
+    }
+}

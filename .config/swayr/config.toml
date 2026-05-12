@@ -1,0 +1,3 @@
+[focus]
+# After the sequence ends (Alt released), leave focus on the last selected window
+lockin_delay = 750

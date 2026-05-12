@@ -1,0 +1,6 @@
+# SwayFX session config.
+# Reusa todo o config do sway puro como base e adiciona apenas os efeitos
+# específicos do swayfx, mantendo um único source-of-truth para keybindings,
+# regras de janela, bar, exec_alwayses etc.
+include ~/.config/sway/config
+include ~/.config/swayfx/effects.conf
